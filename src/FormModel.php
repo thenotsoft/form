@@ -173,7 +173,7 @@ abstract class FormModel implements FormModelInterface, PostValidationHookInterf
     /**
      * @psalm-param array<string, string|array> $data
      */
-    public function load(array $data, ?string $formName = null, bool $throwCastException = false): bool
+    public function load(array $data, ?string $formName = null): bool
     {
         $this->rawData = [];
         $scope = $formName ?? $this->getFormName();
@@ -188,10 +188,7 @@ abstract class FormModel implements FormModelInterface, PostValidationHookInterf
         foreach ($this->rawData as $name => $value) {
             try {
                 $this->setAttribute($name, $value);
-            } catch (ValueCastException $e) {
-                if ($throwCastException) {
-                    throw $e;
-                }
+            } catch (ValueCastException) {
             }
         }
 
